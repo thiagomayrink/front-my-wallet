@@ -1,21 +1,31 @@
 import styled from "styled-components";
 import {RiLogoutBoxRLine,RiAddCircleLine,RiIndeterminateCircleLine} from 'react-icons/ri'
+import { useContext } from "react";
+import {useHistory} from 'react-router-dom';
+import UserContext from '../contexts/UserContext';
 
-export default function Home(params) {
+export default function Home() {
+    const { user: {user, config, token} } = useContext(UserContext);
+    const history = useHistory();
+    function toTransaction(type,id) {
+        type === 0 
+        ? history.push("/transaction", { type, id }) 
+        :history.push("/transaction", { type, id });
+    }
     return (
         <Container>
             <Header>
-                <span>Olá, Fulano</span><RiLogoutBoxRLine/>
+                <span>Olá, {user.name}</span><RiLogoutBoxRLine/>
             </Header>
             <Content>
 
             </Content>
             <Actions>
-                <Button>
+                <Button onClick={(e)=>toTransaction(0,user.id)}>
                     <RiAddCircleLine/>
                     <p>Nova<br/>Entrada</p>
                 </Button>
-                <Button>
+                <Button onClick={(e)=>toTransaction(1,user.id)}>
                     <RiIndeterminateCircleLine/>
                     <p>Nova<br/>Saída</p>
                 </Button>
