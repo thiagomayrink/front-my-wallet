@@ -25,6 +25,8 @@ export default function SignInPage() {
             const body = {email, password};
             const request = axios.post('http://localhost:4000/sign-in', body);
             request.then((response)=> {
+                console.log(response);
+                console.log(response.data);
                 if (!response.data?.user || !response.data?.token){
                     return console.log('login error, incomplete credential');
                 }
