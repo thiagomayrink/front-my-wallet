@@ -1,7 +1,7 @@
 import axios from 'axios';
 import styled from "styled-components";
 import {RiLogoutBoxRLine,RiAddCircleLine,RiIndeterminateCircleLine} from 'react-icons/ri'
-import { useContext, useState , useEffect} from "react";
+import { useContext, useState , useEffect, useRef} from "react";
 import {useHistory} from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 import dayjs from 'dayjs';
@@ -11,6 +11,20 @@ export default function Home() {
     const history = useHistory();
     const [balance, setBalance] = useState('');
     const [transactions, setTransactions] = useState('');
+    const bottomRef = useRef();
+
+    function signOut() {
+        const request = axios.post('http://localhost:4000/sign-out',{},config);
+        request.then(()=> history.push("/"));
+        request.catch((error)=> {
+            console.log(error);
+        });
+    }
+    function scrollToBottom() {
+        if (bottomRef !== 'undefined') {
+            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }
     function getBalance() {
         const request = axios.get('http://localhost:4000/balance',config);
         request.then((response)=> {
@@ -24,8 +38,8 @@ export default function Home() {
     function getTransactions() {
         const request = axios.get('http://localhost:4000/transactions',config);
         request.then((response)=> {
-            console.log(response.data);
-            setTransactions(response.data);
+            setTransactions(response.data)
+            scrollToBottom();
         });
         request.catch((error)=> {
             console.log(error);
@@ -43,11 +57,21 @@ export default function Home() {
     return (
         <Container>
             <Header>
-                <span>Olá, {user.name}</span><RiLogoutBoxRLine/>
+                <span>Olá, {user.name}</span><RiLogoutBoxRLine onClick={signOut}/>
             </Header>
             <Content>
+            <TransactionsContainer>
                 {transactions
-                ?  transactions.map(({amount,date,description,id,type})=>{
+                ?  transactions.map(({amount,date,description,id,type},i)=>{
+                    if(i = transactions.length){
+                        return (
+                            <TransactionContainer key={id} ref={bottomRef}>
+                                <DateSpan>{dayjs(date).format('DD/MM')}</DateSpan>
+                                <DescriptionSpan>{description}</DescriptionSpan>
+                                <ValueSpan transaction={type}>{amount}</ValueSpan>
+                            </TransactionContainer>
+                        );
+                    }
                     return (
                         <TransactionContainer key={id}>
                             <DateSpan>{dayjs(date).format('DD/MM')}</DateSpan>
@@ -56,14 +80,15 @@ export default function Home() {
                         </TransactionContainer>
                     );
                 })
-                :<Message>
+                :<EmptyTransactionsMessage>
                     Não há registros de <br/>
                     entrada ou saída
-                </Message>}
-                <Balance>
+                </EmptyTransactionsMessage>}
+                <BalanceContainer>
                     <BalanceText>SALDO:</BalanceText> 
                     <BalanceValue value={balance}>{balance}</BalanceValue>
-                </Balance>
+                </BalanceContainer>
+            </TransactionsContainer>
             </Content>
             <Actions>
                 <Button onClick={(e)=>toTransaction(0,user.id)}>
@@ -78,7 +103,7 @@ export default function Home() {
         </Container>
     )
 }
-const Balance = styled.div`
+const BalanceContainer = styled.div`
     position:absolute;
     display:flex;
     align-items:center;
@@ -90,7 +115,6 @@ const Balance = styled.div`
     width:calc(100% - 24px);
     font-size: 17px;
     line-height: 20px;
-    letter-spacing: 0em;
 `
 const BalanceText = styled.div`
     color:#000000;
@@ -99,7 +123,6 @@ const BalanceText = styled.div`
 `
 const BalanceValue = styled.div`
     color:${props=> props.value > 0 ? "#03AC00" : "#C70000"};
-    font-weight: 400;
     text-align: right;
 `
 const TransactionContainer = styled.div`
@@ -111,32 +134,20 @@ const TransactionContainer = styled.div`
     margin-bottom: 18px;
 `
 const ValueSpan = styled.span`
-    color:${props=> props.transaction === 0 ? "#C70000" : "#03AC00"}; 
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19px;
-    letter-spacing: 0em;
+    color:${props=> props.transaction === 0 ? "#03AC00" : "#C70000"}; 
     text-align: right;
 `
 const DescriptionSpan = styled.span`
     color:#000000;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19px;
-    letter-spacing: 0em;
     width:100%;
     text-indent:10px;
     text-align: left;
 `
 const DateSpan = styled.span`
     color:#C6C6C6;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19px;
-    letter-spacing: 0em;
     text-align: left;
 `
-const Message = styled.div`
+const EmptyTransactionsMessage = styled.div`
     position:absolute;
     top:0;
     left:0;
@@ -148,9 +159,7 @@ const Message = styled.div`
     align-items:center;
     justify-content:center;
     font-size: 20px;
-    font-weight: 400;
     line-height: 23px;
-    letter-spacing: 0em;
     text-align: center;
     color: #868686;
 `
@@ -170,20 +179,24 @@ const Header = styled.div`
     font-size: 26px;
     font-weight: 700;
     line-height: 31px;
-    letter-spacing: 0em;
     margin-bottom:22px;
+`
+const TransactionsContainer = styled.div`
+    display:flex;
+    flex-direction:column;
+    overflow-y: scroll;
+    max-height:calc(100vh - 261px);
+    width:100%;
 `
 const Content = styled.article`
     position:relative;
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
     width:100%;
     min-height:calc(100vh - 221px);
     border-radius:5px;
     padding:24px 12px 40px;
     background:#fff;
-    overflow-y: scroll;
     margin-bottom:12px;
     font-size: 16px;
     font-weight: 400;
@@ -216,7 +229,6 @@ const Button = styled.button`
     font-size: 17px;
     font-weight: 700;
     line-height: 20px;
-    letter-spacing: 0em;
     width: calc(50% - 8px);
     min-height: 114px;
     background: #A328D6;
