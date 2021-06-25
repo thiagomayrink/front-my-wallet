@@ -12,11 +12,11 @@ export default function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // useEffect(()=>{
-    //     if(user!==null){
-    //         history.push('/home');
-    //     }
-    // },[user,history]);
+    useEffect(()=>{
+        if(user!==null){
+            history.push('/home');
+        }
+    },[user,history]);
 
     function login(e) {
         e.preventDefault();

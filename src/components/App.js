@@ -4,8 +4,8 @@ import { useState } from 'react';
 import GlobalStyle from '../styles/globalStyles';
 import SignInPage from './sign/SignInPage'
 import SignUpPage from './sign/SignUpPage'
-import Home from './Home';
-import TransactionPage from './TransactionPage';
+import Home from './home/Home';
+import TransactionPage from './transactions/TransactionPage';
 
 export default function App() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
