@@ -9,7 +9,6 @@ import { EmptyTransactionsMessage, Header } from '../home/styles/HomeStyle';
 export default function TransactionPage() {
     const { user: userData, setUser } = useContext(UserContext);
     const [value, setValue] = useState('');
-    const [maskValue, setMaskValue] = useState('')
     const [description, setDescription] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
@@ -51,7 +50,7 @@ export default function TransactionPage() {
             <Container>
                 <Form onSubmit={(e)=>makeTransaction(e,type)}>
                     <Title>Nova {type === 0 ? 'Entrada':'Saída'}</Title>
-                    <input onChange={(e)=>setValue(e.target.value)} value={value} type="text" placeholder="Valor em centavos" ></input>
+                    <input onChange={(e)=>setValue(e.target.value.replace(/[^0-9]/g,''))} value={value} type="text" placeholder="Valor em centavos" ></input>
                     <input onChange={(e)=>setDescription(e.target.value)} value={description} type="text" placeholder="Descrição"></input>
                     <Button isloading={isLoading} disabled={isLoading} type="submit">{type === 0 ? 'Salvar entrada':'Salvar saída'}</Button>
                 </Form>

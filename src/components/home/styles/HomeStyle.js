@@ -20,7 +20,7 @@ const BalanceText = styled.div`
     text-align: left;
 `
 const BalanceValue = styled.div`
-    color:${props=> props.value > 0 ? "#03AC00" : "#C70000"};
+    color:${props=> props.value >= 0 ? props.value === 0 ? "#868686" : "#03AC00" : "#C70000"};
     text-align: right;
 `
 const TransactionContainer = styled.div`

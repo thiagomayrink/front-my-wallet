@@ -30,7 +30,7 @@ export default function Home() {
 
     function scrollToBottom() {
         if (bottomRef !== 'undefined') {
-            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
         };
     };
 
