@@ -21,7 +21,7 @@ export default function Home() {
     const bottomRef = useRef();
 
     function signOut() {
-        const request = axios.post('http://localhost:4000/sign-out',{},userData?.config);
+        const request = axios.post(`${process.env.REACT_APP_API_BASE_URL}/sign-out`,{},userData?.config);
         request.then(()=> history.push("/"));
         request.catch((error)=> {
             console.log(error);
@@ -35,7 +35,7 @@ export default function Home() {
     };
 
     const getBalance = useCallback (()=>{
-        const request = axios.get('http://localhost:4000/balance',userData?.config);
+        const request = axios.get(`${process.env.REACT_APP_API_BASE_URL}/balance`,userData?.config);
         request.then((response)=> {
             setBalance(response.data?.balance);
         });
@@ -50,7 +50,7 @@ export default function Home() {
     },[userData?.config,setUser,history]);
 
     const getTransactions = useCallback (()=> {
-        const request = axios.get('http://localhost:4000/transactions',userData?.config);
+        const request = axios.get(`${process.env.REACT_APP_API_BASE_URL}/transactions`,userData?.config);
         request.then((response)=> {
             setTransactions(response.data);
             scrollToBottom();

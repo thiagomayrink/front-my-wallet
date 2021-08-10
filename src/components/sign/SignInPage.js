@@ -23,7 +23,7 @@ export default function SignInPage() {
         if (email && password){
             setIsLoading(true);
             const body = {email, password};
-            const request = axios.post('http://localhost:4000/sign-in', body);
+            const request = axios.post(`${process.env.REACT_APP_API_BASE_URL}/sign-in`, body);
             request.then((response)=> {
                 if (!response.data?.user || !response.data?.token){
                     return console.log('login error, incomplete credential');

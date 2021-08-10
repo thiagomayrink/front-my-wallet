@@ -29,7 +29,7 @@ export default function TransactionPage() {
             amount: parseInt(value),
             description,
         };
-        const request = axios.post('http://localhost:4000/transactions',body,userData?.config);
+        const request = axios.post(`${process.env.REACT_APP_API_BASE_URL}/transactions`,body,userData?.config);
         request.then(()=> {
             setIsLoading(false);
             history.push('/home');
