@@ -22,9 +22,13 @@ export default function Home() {
 
     function signOut() {
         const request = axios.post(`${process.env.REACT_APP_API_BASE_URL}/sign-out`,{},userData?.config);
-        request.then(()=> history.push("/"));
+        request.then(()=> {
+            localStorage.clear();
+            setUser(null);
+            history.push("/")});
         request.catch((error)=> {
             console.log(error);
+            alert('erro inesperado, estamos verificando!');
         });
     };
 
@@ -44,8 +48,10 @@ export default function Home() {
                 localStorage.clear();
                 setUser(null);
                 history.push("/");
-            };
-            console.log(error);
+            } else {
+                console.log(error);
+                alert('erro inesperado, estamos verificando!');
+            }
         });
     },[userData?.config,setUser,history]);
 
@@ -60,14 +66,20 @@ export default function Home() {
                 localStorage.clear();
                 setUser(null);
                 history.push("/");
-            };
-            console.log(error);
+            } else {
+                console.log(error);
+                alert('erro inesperado, estamos verificando!');
+            }
         });
     },[userData?.config,setUser,history]);
 
     function toTransaction(type) {
         history.push("/transaction", { type })
     };
+
+    function transformToDecimal(value) {
+        return Number(value/100).toFixed(2).replace(".",",");
+    }
 
     useEffect(()=>{
         getTransactions();
@@ -78,14 +90,14 @@ export default function Home() {
         return (
             <Container>
                 <Header>
-                    <span>Olá, {userData?.user.name}</span><ExitButton onClick={()=>{signOut();localStorage.clear();setUser(null)}}/>
+                    <span>Olá, {userData?.user.name}</span><ExitButton onClick={()=>{signOut()}}/>
                 </Header>
                 <Content >
                     <TransactionsContainer>
                         {transactions
                             ? transactions.map(({amount,date,description,id,type},i)=>{
-                                const decimalAmount = Number(amount/100).toFixed(2).replace(".",",");
-                                if(i = transactions.length){
+                                const decimalAmount = transformToDecimal(amount);
+                                if(i === transactions.length-1){
                                     return (
                                         <TransactionContainer key={id} ref={bottomRef}>
                                             <DateSpan>{dayjs(date).format('DD/MM')}</DateSpan>
@@ -110,7 +122,7 @@ export default function Home() {
                         <BalanceContainer>
                             <BalanceText>SALDO:</BalanceText> 
                             {}
-                            <BalanceValue value={balance}>{Number(balance/100).toFixed(2).replace(".",",")}</BalanceValue>
+                            <BalanceValue value={balance}>{transformToDecimal(balance)}</BalanceValue>
                         </BalanceContainer>
                     </TransactionsContainer>
                 </Content>

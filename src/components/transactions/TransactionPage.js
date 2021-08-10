@@ -6,6 +6,8 @@ import UserContext from '../../contexts/UserContext';
 import {  Title, Container, Button, Form } from './styles/TransactionsStyle';
 import { EmptyTransactionsMessage, Header } from '../home/styles/HomeStyle';
 
+import CurrencyInput from 'react-currency-input-field';
+
 export default function TransactionPage() {
     const { user: userData, setUser } = useContext(UserContext);
     const [value, setValue] = useState('');
@@ -24,9 +26,11 @@ export default function TransactionPage() {
             return alert('insira um valor!');
         }
         setIsLoading(true);
+        const amount = parseInt(value.replace(/[^0-9]/g,''))
+        
         const body = {
             type,
-            amount: parseInt(value),
+            amount,
             description,
         };
         const request = axios.post(`${process.env.REACT_APP_API_BASE_URL}/transactions`,body,userData?.config);
@@ -45,12 +49,19 @@ export default function TransactionPage() {
             alert('ocorreu um erro, tente novamente');
         });
     }
+    
     if (userData!== null){
         return (
             <Container>
                 <Form onSubmit={(e)=>makeTransaction(e,type)}>
                     <Title>Nova {type === 0 ? 'Entrada':'Saída'}</Title>
-                    <input onChange={(e)=>setValue(e.target.value.replace(/[^0-9]/g,''))} value={value} type="text" placeholder="Valor em centavos" ></input>
+                    <CurrencyInput 
+                        placeholder="Digite o valor" 
+                        value={value}
+                        allowNegativeValue={false}
+                        fixedDecimalLength={2}
+                        onValueChange={(value)=> setValue(value)} 
+                    />
                     <input onChange={(e)=>setDescription(e.target.value)} value={description} type="text" placeholder="Descrição"></input>
                     <Button isloading={isLoading} disabled={isLoading} type="submit">{type === 0 ? 'Salvar entrada':'Salvar saída'}</Button>
                 </Form>
