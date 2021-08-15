@@ -44,7 +44,7 @@ export default function TransactionPage() {
     });
     request.catch((error) => {
       setIsLoading(false);
-      console.log(error.response.status);
+      console.error(error.response.status);
       if (error.response.status === 401) {
         localStorage.clear();
         setUser(null);

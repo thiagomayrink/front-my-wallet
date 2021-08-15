@@ -24,7 +24,7 @@ export default function Header() {
       history.push("/");
     });
     request.catch((error) => {
-      console.log(error);
+      console.error(error);
       alert("erro inesperado, estamos verificando!");
     });
   }

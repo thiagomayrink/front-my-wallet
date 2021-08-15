@@ -43,7 +43,7 @@ export default function HomePage() {
         setUser(null);
         history.push("/");
       } else {
-        console.log(error);
+        console.error(error);
         alert("erro inesperado, estamos verificando!");
       }
     });
@@ -64,7 +64,7 @@ export default function HomePage() {
         setUser(null);
         history.push("/");
       } else {
-        console.log(error);
+        console.error(error);
         alert("erro inesperado, estamos verificando!");
       }
     });

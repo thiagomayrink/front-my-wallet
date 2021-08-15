@@ -29,7 +29,7 @@ export default function SignInPage() {
       );
       request.then((response) => {
         if (!response.data?.user || !response.data?.token) {
-          return console.log("login error, incomplete credential");
+          return alert("Ocorreu um erro inesperado! faça login novamente");
         }
         const userCredential = {
           user: response.data.user,
@@ -46,11 +46,11 @@ export default function SignInPage() {
       request.catch((error) => {
         setIsLoading(false);
         if (error.response.status === 403) {
-          return alert("Wrong e-mail or password, please try again");
+          return alert("Email ou Senha inválidos");
         }
       });
     } else {
-      return alert("Please enter your e-mail and password");
+      return alert("Informe Email e senha");
     }
   }
   return (

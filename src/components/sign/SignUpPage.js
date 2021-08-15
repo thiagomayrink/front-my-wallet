@@ -14,7 +14,13 @@ export default function SignUpPage() {
 
   function signUp(e) {
     e.preventDefault();
-    if (name && password && email && password === passwordConfirmation) {
+    if (
+      name &&
+      password &&
+      email &&
+      password.length > 5 &&
+      password === passwordConfirmation
+    ) {
       setIsLoading(true);
       const body = {
         name,
@@ -35,32 +41,27 @@ export default function SignUpPage() {
       });
       request.catch((error) => {
         if (error.response.status === 409) {
-          alert(
-            "This e-mail is already in use, please proceed to log in page or use a different e-mail address"
-          );
+          alert("O Email já está em uso, faça login ou use um Email diferente");
         } else {
-          alert(
-            "Something went wrong, please try again soon",
-            error.response.status
-          );
+          alert("erro inesperado, estamos verificando!", error.response.status);
         }
         setIsLoading(false);
       });
     }
     if (!name) {
-      alert("Please, tell us your name");
+      alert("Informe seu nome");
       return;
     }
     if (!email) {
-      alert("Please, provide your e-mail");
+      alert("Informe seu Email");
       return;
     }
-    if (!password) {
-      alert("Please, enter a password");
+    if (!password || password.length < 6) {
+      alert("Insira uma senha de no mínimo 6 caracteres");
       return;
     }
     if (password !== passwordConfirmation) {
-      alert("Passwords must match");
+      alert("As senhas devem ser idênticas");
       return;
     }
   }
