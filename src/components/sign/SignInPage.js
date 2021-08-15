@@ -23,10 +23,8 @@ export default function SignInPage() {
     if (email && password) {
       setIsLoading(true);
       const body = { email, password };
-      const request = axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}sign-in`,
-        body
-      );
+      const path = new URL("/sign-in", process.env.REACT_APP_API_BASE_URL);
+      const request = axios.post(path.href, body);
       request.then((response) => {
         if (!response.data?.user || !response.data?.token) {
           return alert("Ocorreu um erro inesperado! faça login novamente");
@@ -45,7 +43,7 @@ export default function SignInPage() {
       });
       request.catch((error) => {
         setIsLoading(false);
-        if (error.response.status === 403) {
+        if (error?.response?.status === 403) {
           return alert("Email ou Senha inválidos");
         }
       });

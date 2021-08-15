@@ -13,18 +13,14 @@ export default function Header() {
   const history = useHistory();
 
   function signOut() {
-    const request = axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}sign-out`,
-      {},
-      userData?.config
-    );
+    const path = new URL("/sign-out", process.env.REACT_APP_API_BASE_URL);
+    const request = axios.post(path.href, {}, userData?.config);
     request.then(() => {
       localStorage.clear();
       setUser(null);
       history.push("/");
     });
-    request.catch((error) => {
-      console.error(error);
+    request.catch(() => {
       alert("erro inesperado, estamos verificando!");
     });
   }

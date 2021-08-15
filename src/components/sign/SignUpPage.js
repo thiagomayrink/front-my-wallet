@@ -14,40 +14,6 @@ export default function SignUpPage() {
 
   function signUp(e) {
     e.preventDefault();
-    if (
-      name &&
-      password &&
-      email &&
-      password.length > 5 &&
-      password === passwordConfirmation
-    ) {
-      setIsLoading(true);
-      const body = {
-        name,
-        email,
-        password,
-      };
-      const request = axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}sign-up`,
-        body
-      );
-      request.then((response) => {
-        if (response.status === 201) {
-          setIsLoading(false);
-          history.push("/");
-        } else {
-          alert(response.status);
-        }
-      });
-      request.catch((error) => {
-        if (error.response.status === 409) {
-          alert("O Email já está em uso, faça login ou use um Email diferente");
-        } else {
-          alert("erro inesperado, estamos verificando!", error.response.status);
-        }
-        setIsLoading(false);
-      });
-    }
     if (!name) {
       alert("Informe seu nome");
       return;
@@ -63,6 +29,40 @@ export default function SignUpPage() {
     if (password !== passwordConfirmation) {
       alert("As senhas devem ser idênticas");
       return;
+    }
+
+    if (
+      name &&
+      password &&
+      email &&
+      password.length > 5 &&
+      password === passwordConfirmation
+    ) {
+      setIsLoading(true);
+      const body = {
+        name,
+        email,
+        password,
+      };
+
+      const path = new URL("/sign-up", process.env.REACT_APP_API_BASE_URL);
+      const request = axios.post(path.href, body);
+      request.then((response) => {
+        if (response.status === 201) {
+          setIsLoading(false);
+          history.push("/");
+        } else {
+          alert(response.status);
+        }
+      });
+      request.catch((error) => {
+        if (error?.response?.status === 409) {
+          alert("O Email já está em uso, faça login ou use um Email diferente");
+        } else {
+          alert("erro inesperado, estamos verificando!");
+        }
+        setIsLoading(false);
+      });
     }
   }
 

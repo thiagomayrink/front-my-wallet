@@ -30,41 +30,35 @@ export default function HomePage() {
   const bottomRef = useRef();
 
   const getBalance = useCallback(() => {
-    const request = axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}balance`,
-      userData?.config
-    );
+    const path = new URL("/balance", process.env.REACT_APP_API_BASE_URL);
+    const request = axios.get(path.href, userData?.config);
     request.then((response) => {
       setBalance(response.data?.balance);
     });
     request.catch((error) => {
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         localStorage.clear();
         setUser(null);
         history.push("/");
       } else {
-        console.error(error);
         alert("erro inesperado, estamos verificando!");
       }
     });
   }, [userData?.config, setUser, history]);
 
   const getTransactions = useCallback(() => {
-    const request = axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}transactions`,
-      userData?.config
-    );
+    const path = new URL("/transactions", process.env.REACT_APP_API_BASE_URL);
+    const request = axios.get(path.href, userData?.config);
     request.then((response) => {
       setTransactions(response.data);
       scrollToBottom();
     });
     request.catch((error) => {
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         localStorage.clear();
         setUser(null);
         history.push("/");
       } else {
-        console.error(error);
         alert("erro inesperado, estamos verificando!");
       }
     });

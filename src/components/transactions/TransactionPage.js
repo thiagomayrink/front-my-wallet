@@ -33,19 +33,15 @@ export default function TransactionPage() {
       amount,
       description,
     };
-    const request = axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}transactions`,
-      body,
-      userData?.config
-    );
+    const path = new URL("/transactions", process.env.REACT_APP_API_BASE_URL);
+    const request = axios.post(path.href, body, userData?.config);
     request.then(() => {
       setIsLoading(false);
       history.push("/home");
     });
     request.catch((error) => {
       setIsLoading(false);
-      console.error(error.response.status);
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         localStorage.clear();
         setUser(null);
         return history.push("/");
