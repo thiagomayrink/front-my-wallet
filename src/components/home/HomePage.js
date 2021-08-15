@@ -31,7 +31,7 @@ export default function HomePage() {
 
   const getBalance = useCallback(() => {
     const request = axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/balance`,
+      `${process.env.REACT_APP_API_BASE_URL}balance`,
       userData?.config
     );
     request.then((response) => {
@@ -51,7 +51,7 @@ export default function HomePage() {
 
   const getTransactions = useCallback(() => {
     const request = axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/transactions`,
+      `${process.env.REACT_APP_API_BASE_URL}transactions`,
       userData?.config
     );
     request.then((response) => {

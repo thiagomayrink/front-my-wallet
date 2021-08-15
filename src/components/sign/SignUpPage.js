@@ -28,7 +28,7 @@ export default function SignUpPage() {
         password,
       };
       const request = axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/sign-up`,
+        `${process.env.REACT_APP_API_BASE_URL}sign-up`,
         body
       );
       request.then((response) => {

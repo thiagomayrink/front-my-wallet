@@ -14,7 +14,7 @@ export default function Header() {
 
   function signOut() {
     const request = axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/sign-out`,
+      `${process.env.REACT_APP_API_BASE_URL}sign-out`,
       {},
       userData?.config
     );

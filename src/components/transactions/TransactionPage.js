@@ -34,7 +34,7 @@ export default function TransactionPage() {
       description,
     };
     const request = axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/transactions`,
+      `${process.env.REACT_APP_API_BASE_URL}transactions`,
       body,
       userData?.config
     );
