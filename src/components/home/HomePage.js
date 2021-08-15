@@ -1,9 +1,11 @@
 import axios from "axios";
-import { RiAddCircleLine, RiIndeterminateCircleLine } from "react-icons/ri";
 import { useContext, useState, useEffect, useRef, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import dayjs from "dayjs";
+
+import Header from "./Header";
+import Footer from "./Footer";
 
 import {
   BalanceContainer,
@@ -15,43 +17,17 @@ import {
   DateSpan,
   EmptyTransactionsMessage,
   Container,
-  Header,
   TransactionsContainer,
   Content,
-  Actions,
-  Button,
-  ExitButton,
 } from "./styles/HomeStyle";
+import { transformToDecimal } from "../utils/utils";
 
-export default function Home() {
+export default function HomePage() {
   const history = useHistory();
   const { user: userData, setUser } = useContext(UserContext);
   const [balance, setBalance] = useState("");
   const [transactions, setTransactions] = useState("");
   const bottomRef = useRef();
-
-  function signOut() {
-    const request = axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/sign-out`,
-      {},
-      userData?.config
-    );
-    request.then(() => {
-      localStorage.clear();
-      setUser(null);
-      history.push("/");
-    });
-    request.catch((error) => {
-      console.log(error);
-      alert("erro inesperado, estamos verificando!");
-    });
-  }
-
-  function scrollToBottom() {
-    if (bottomRef !== "undefined") {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }
 
   const getBalance = useCallback(() => {
     const request = axios.get(
@@ -94,14 +70,10 @@ export default function Home() {
     });
   }, [userData?.config, setUser, history]);
 
-  function toTransaction(type) {
-    history.push("/transaction", { type });
-  }
-
-  function transformToDecimal(value) {
-    return Number(value / 100)
-      .toFixed(2)
-      .replace(".", ",");
+  function scrollToBottom() {
+    if (bottomRef !== "undefined") {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
   useEffect(() => {
@@ -112,14 +84,7 @@ export default function Home() {
   if (userData !== null) {
     return (
       <Container>
-        <Header>
-          <span>Olá, {userData?.user.name}</span>
-          <ExitButton
-            onClick={() => {
-              signOut();
-            }}
-          />
-        </Header>
+        <Header />
         <Content>
           <TransactionsContainer>
             {transactions ? (
@@ -157,33 +122,10 @@ export default function Home() {
             </BalanceContainer>
           </TransactionsContainer>
         </Content>
-        <Actions>
-          <Button onClick={() => toTransaction(0)}>
-            <RiAddCircleLine />
-            <p>
-              Nova
-              <br />
-              Entrada
-            </p>
-          </Button>
-          <Button onClick={() => toTransaction(1)}>
-            <RiIndeterminateCircleLine />
-            <p>
-              Nova
-              <br />
-              Saída
-            </p>
-          </Button>
-        </Actions>
+        <Footer />
       </Container>
     );
   } else {
-    return (
-      <Header>
-        <EmptyTransactionsMessage>
-          Por favor faça o login!
-        </EmptyTransactionsMessage>
-      </Header>
-    );
+    return <Header />;
   }
 }

@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 
+const Header = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 31px;
+  margin-bottom: 22px;
+`;
+
 const BalanceContainer = styled.div`
   position: absolute;
   display: flex;
@@ -61,6 +74,8 @@ const EmptyTransactionsMessage = styled.div`
   line-height: 23px;
   text-align: center;
   color: #868686;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
 `;
 const Container = styled.div`
   width: 100%;
@@ -68,18 +83,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-  color: #fff;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 31px;
-  margin-bottom: 22px;
-`;
+
 const TransactionsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,7 +96,7 @@ const TransactionsContainer = styled.div`
   max-height: calc(100vh - 261px);
   width: 100%;
 `;
-const Content = styled.article`
+const Content = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -107,7 +111,7 @@ const Content = styled.article`
   line-height: 19px;
   letter-spacing: 0em;
 `;
-const Actions = styled.div`
+const Actions = styled.footer`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -155,8 +159,8 @@ export {
   DescriptionSpan,
   DateSpan,
   EmptyTransactionsMessage,
-  Container,
   Header,
+  Container,
   TransactionsContainer,
   Content,
   Actions,

@@ -4,7 +4,7 @@ import { useState } from "react";
 import GlobalStyle from "../styles/globalStyles";
 import SignInPage from "./sign/SignInPage";
 import SignUpPage from "./sign/SignUpPage";
-import Home from "./home/Home";
+import HomePage from "./home/HomePage";
 import TransactionPage from "./transactions/TransactionPage";
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
             <SignUpPage />
           </Route>
           <Route path="/home" exact>
-            <Home />
+            <HomePage />
           </Route>
           <Route path="/transaction" exact>
             <TransactionPage />
