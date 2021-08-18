@@ -58,7 +58,7 @@ export default function SignInPage() {
         <input
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          type="text"
+          type="email"
           placeholder="E-mail"
         ></input>
         <input
