@@ -1,10 +1,27 @@
 # My Wallet
 
-An easy to use financial manager. Track your revenues and expenses to see how you spend your money.
+<table>
+  <tr>
+    <th> Intro </th>
+    <th> Demo </th>
+  </tr>
+  <tr>
+    <td>
+      <p>An easy to use financial manager.</p>
+      <p>
+        Track your revenues and expenses </br>
+        to see how you spend your money.
+      </p>
+    </td>
+    <td>
+      <div>
+        <img src="/assets/screen-shots/my-wallet-features.gif" width="300" />
+      </div>
+    </td>
+  </tr>
+</table>
 
-<img src="/assets/my-wallet-usage.gif" />
-
-Try it out now at https://link-to-my-project-deployed.herokuapp.com
+Try it out now at [my-wallet-app][my-wallet-Deploy]
 
 ## About
 
@@ -15,6 +32,7 @@ This is an web application with which lots of people can manage their own expens
 - List all financial events for a user
 - Add expense
 - Add revenue
+- Sign Out
 
 By using this app any user can learn how they've been using their money and always keep their balance on track.
 
@@ -48,3 +66,4 @@ npm run build
 7. Finally access http://localhost:3000 on your favorite browser (except for Internet Explorer.)
 
 [my-wallet-API]:https://github.com/thiagomayrink/my-wallet-api
+[my-wallet-Deploy]:https://my-wallet-dun.vercel.app
