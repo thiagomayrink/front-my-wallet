@@ -21,7 +21,7 @@
   </tr>
 </table>
 
-Try it out now at [my-wallet-app][my-wallet-Deploy]
+#### Try it out now at [my-wallet-app (Vercel)][my-wallet-Deploy]
 
 ## About
 
@@ -50,8 +50,7 @@ Tools and frameworks used in this project:<br>
 
 1. Clone this repository
 2. Clone the back-end repository at [My Wallet - API][my-wallet-API]
-3. Follow instructions to run back-end at [My Wallet: back-end][my-wallet-API]
-4. Install dependencies
+3. Install dependencies
 ```bash
 npm i
 ```
